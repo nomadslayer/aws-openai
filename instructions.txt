@@ -1,0 +1,28 @@
+# REGIONS:
+ap-southeast-5
+
+# RESOURCES:
+- 1 EC2 Instance with at least 4GB Ram and 1VCPU
+	- OS: Ubuntu 22.04
+	- Tag: {"Name": "Server-1"}
+	- Tag: {"Usage": "Lab"}
+- 1 New Key Pair generated for SSH Access, named "User-1"
+- Security Group:
+	- Name: "Server-1-sg"
+	- Inbound RUles:
+			- SSH Port 22: From Anywhere
+			- HTTP Port 80: From only the IP 182.35.46.18
+			- TCP Inbound from only the Security Group "sg-0a9f8a8b8b8b8b8b"
+- 1 S3 bucket named "bucket-1"
+
+# OTHER REQUIREMENTS:
+- EC2 Instance IAM ROle:
+	- EC2 Instance should have an IAM role that allows access to S3 to "PUT" objects
+	- Destination S3 Bucket: "Server-1-data"
+- Bootstrap script:
+	- Update & Upgrade APT Package Manager
+	- Install NGINX
+	- Install Git
+	- Retrieve the git repository:
+		- Location: /home/ec2-user/ibm-cloud-pak-for-data
+		- git clone https://github.com/IBM-EPBL/ibm-cloud-pak-for-data.git
